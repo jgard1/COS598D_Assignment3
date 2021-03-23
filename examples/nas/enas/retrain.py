@@ -13,10 +13,17 @@ from torch.utils.tensorboard import SummaryWriter
 
 import datasets
 import utils
-from model import CNN
 from nni.nas.pytorch.fixed import apply_fixed_architecture
 from nni.nas.pytorch.utils import AverageMeter
+
+from macro import GeneralNetwork
+from micro import MicroNetwork
+from nni.algorithms.nas.pytorch import enas
+from nni.nas.pytorch.callbacks import (ArchitectureCheckpoint,
+                                       LRSchedulerCallback)
+from utils import accuracy, reward_accuracy
 import timeit
+
 
 logger = logging.getLogger('nni')
 
