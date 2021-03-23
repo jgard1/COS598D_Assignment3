@@ -51,6 +51,7 @@ def train(config, train_loader, model, optimizer, criterion, epoch):
         bs = x.size(0)
 
         optimizer.zero_grad()
+        print(model(x))
         logits, aux_logits = model(x)
         loss = criterion(logits, y)
         if config.aux_weight > 0.:
