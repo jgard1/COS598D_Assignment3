@@ -134,9 +134,10 @@ if __name__ == "__main__":
     parser.add_argument("--workers", default=4)
     parser.add_argument("--grad-clip", default=5., type=float)
     parser.add_argument("--arc-checkpoint", default="./checkpoints/epoch_0.json")
+    parser.add_argument("--v1", default=False, action="store_true")
 
     args = parser.parse_args()
-    dataset_train, dataset_valid = datasets.get_dataset("cifar10", cutout_length=16)
+    dataset_train, dataset_valid = datasets.get_dataset("cifar10")
 
     mutator = None
     ctrl_kwargs = {}
