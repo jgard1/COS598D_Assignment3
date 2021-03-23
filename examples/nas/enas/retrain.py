@@ -51,11 +51,11 @@ def train(config, train_loader, model, optimizer, criterion, epoch):
         bs = x.size(0)
 
         optimizer.zero_grad()
-        print(model(x))
-        logits, aux_logits = model(x)
+        # print(model(x))
+        logits = model(x)
         loss = criterion(logits, y)
-        if config.aux_weight > 0.:
-            loss += config.aux_weight * criterion(aux_logits, y)
+        # if config.aux_weight > 0.:
+        #     loss += config.aux_weight * criterion(aux_logits, y)
         loss.backward()
         # gradient clipping
         nn.utils.clip_grad_norm_(model.parameters(), config.grad_clip)
