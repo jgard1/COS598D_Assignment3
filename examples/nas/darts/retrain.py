@@ -14,6 +14,7 @@ import utils
 from model import CNN
 from nni.nas.pytorch.fixed import apply_fixed_architecture
 from nni.nas.pytorch.utils import AverageMeter
+import timeit
 
 logger = logging.getLogger('nni')
 
@@ -34,6 +35,7 @@ def train(config, train_loader, model, optimizer, criterion, epoch):
 
     model.train()
 
+    start = timeit.default_timer()
     for step, (x, y) in enumerate(train_loader):
         x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
         bs = x.size(0)
@@ -62,6 +64,12 @@ def train(config, train_loader, model, optimizer, criterion, epoch):
                 "Prec@(1,5) ({top1.avg:.1%}, {top5.avg:.1%})".format(
                     epoch + 1, config.epochs, step, len(train_loader) - 1, losses=losses,
                     top1=top1, top5=top5))
+            cur_time = timeit.default_timer()
+            time_diff = cur_time - start 
+            retStr = str(top1.avg)+" "+str(time_diff)
+            fd = open("accuracy_vs_time.txt", "a")  # append mode 
+            fd.write(retStr+"\n") 
+            fd.close() 
 
         cur_step += 1
 
