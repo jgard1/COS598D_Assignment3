@@ -176,7 +176,7 @@ if __name__ == "__main__":
     best_top1 = 0.
     for epoch in range(args.epochs):
         drop_prob = args.drop_path_prob * epoch / args.epochs
-        model.drop_path_prob(drop_prob)
+        # model.drop_path_prob(drop_prob)
 
         # training
         train(args, train_loader, model, optimizer, criterion, epoch)
