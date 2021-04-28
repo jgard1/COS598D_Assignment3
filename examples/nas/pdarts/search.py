@@ -68,5 +68,5 @@ if __name__ == "__main__":
                             unrolled=args.unrolled,
                             callbacks=[ArchitectureCheckpoint("./checkpoints")])
     logger.info("training")
-    trainer.enable_visualization() # JOSH ADDED THIS LINE, MEMES ARE POSSIBLE 
+    # trainer.enable_visualization() # JOSH ADDED THIS LINE, MEMES ARE POSSIBLE 
     trainer.train()
