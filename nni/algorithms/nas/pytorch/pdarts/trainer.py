@@ -43,6 +43,7 @@ class PdartsTrainer(BaseTrainer):
             "device": device,
             "log_frequency": log_frequency,
             "unrolled": unrolled
+            # "callbacks": callbacks # Josh memes mod, this line not here before
         }
         self.callbacks = callbacks if callbacks is not None else []
 
@@ -59,7 +60,7 @@ class PdartsTrainer(BaseTrainer):
                 callback.build(model, self.mutator, self)
                 callback.on_epoch_begin(epoch)
 
-            darts_callbacks = []
+            darts_callbacks = self.callbacks # Josh memes modifications
             if lr_scheduler is not None:
                 darts_callbacks.append(LRSchedulerCallback(lr_scheduler))
 
