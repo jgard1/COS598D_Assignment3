@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-python search.py --v1 --visualization > darts_search_output.txt
+python search.py --v1 --visualization > pdarts_search_output.txt
 
 CHECKPOINT_PREFIX="./checkpoints/epoch_"
 CHECKPOINT_SUFFIX=".json"
