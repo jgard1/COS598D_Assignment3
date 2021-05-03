@@ -43,14 +43,16 @@ class PdartsTrainer(BaseTrainer):
             "device": device,
             "log_frequency": log_frequency,
             "unrolled": unrolled
+            # "callbacks": callbacks # Josh memes mod, this line not here before
         }
         self.callbacks = callbacks if callbacks is not None else []
 
     def train(self):
 
         switches = None
+        print("Total Number of PDARTS epochs: "+str(self.pdarts_epoch))
         for epoch in range(self.pdarts_epoch):
-
+            print("PDARTS, starting epoch number: "+str(epoch))
             layers = self.init_layers+self.pdarts_num_layers[epoch]
             model, criterion, optim, lr_scheduler = self.model_creator(layers)
             self.mutator = PdartsMutator(model, epoch, self.pdarts_num_to_drop, switches)
@@ -59,9 +61,12 @@ class PdartsTrainer(BaseTrainer):
                 callback.build(model, self.mutator, self)
                 callback.on_epoch_begin(epoch)
 
-            darts_callbacks = []
+            darts_callbacks = self.callbacks # Josh memes modifications
             if lr_scheduler is not None:
                 darts_callbacks.append(LRSchedulerCallback(lr_scheduler))
+                print("trainer.py: lr_scheduler is not None, DARTS Callbacks:"+str(darts_callbacks))
+            else:
+                print("trainer.py: lr_scheduler IS None, DARTS Callbacks:"+str(darts_callbacks))
 
             self.trainer = DartsTrainer(model, mutator=self.mutator, loss=criterion, optimizer=optim,
                                         callbacks=darts_callbacks, **self.darts_parameters)
@@ -71,7 +76,9 @@ class PdartsTrainer(BaseTrainer):
 
             switches = self.mutator.drop_paths()
 
+            print("trainer.py: yeetos, about to enter callback loop") 
             for callback in self.callbacks:
+                print("trainer.py: in callback loop, performing callback: "+str(callback))
                 callback.on_epoch_end(epoch)
 
     def validate(self):

@@ -59,6 +59,8 @@ class DartsTrainer(Trainer):
                          loss, metrics, optimizer, num_epochs, dataset_train, dataset_valid,
                          batch_size, workers, device, log_frequency, callbacks)
 
+        print("\n\n\n\n\ncallbacks in darts initializer: "+str(callbacks))
+        print("\n\n\n\n\n\nDOGECOIN\n\n\n\n\n\n\n\n")
         self.ctrl_optim = torch.optim.Adam(self.mutator.parameters(), arc_learning_rate, betas=(0.5, 0.999),
                                            weight_decay=1.0E-3)
         self.unrolled = unrolled
@@ -80,35 +82,40 @@ class DartsTrainer(Trainer):
                                                        batch_size=batch_size,
                                                        num_workers=workers)
 
-    def train_one_epoch(self, epoch):
-        self.model.train()
-        self.mutator.train()
-        meters = AverageMeterGroup()
-        for step, ((trn_X, trn_y), (val_X, val_y)) in enumerate(zip(self.train_loader, self.valid_loader)):
-            trn_X, trn_y = trn_X.to(self.device), trn_y.to(self.device)
-            val_X, val_y = val_X.to(self.device), val_y.to(self.device)
+    # def train_one_epoch(self, epoch, started_time):
+    #     self.model.train()
+    #     self.mutator.train()
+    #     meters = AverageMeterGroup()
+    #     for step, ((trn_X, trn_y), (val_X, val_y)) in enumerate(zip(self.train_loader, self.valid_loader)):
+    #         trn_X, trn_y = trn_X.to(self.device), trn_y.to(self.device)
+    #         val_X, val_y = val_X.to(self.device), val_y.to(self.device)
 
-            # phase 1. architecture step
-            self.ctrl_optim.zero_grad()
-            if self.unrolled:
-                self._unrolled_backward(trn_X, trn_y, val_X, val_y)
-            else:
-                self._backward(val_X, val_y)
-            self.ctrl_optim.step()
+    #         # phase 1. architecture step
+    #         self.ctrl_optim.zero_grad()
+    #         if self.unrolled:
+    #             self._unrolled_backward(trn_X, trn_y, val_X, val_y)
+    #         else:
+    #             self._backward(val_X, val_y)
+    #         self.ctrl_optim.step()
 
-            # phase 2: child network step
-            self.optimizer.zero_grad()
-            logits, loss = self._logits_and_loss(trn_X, trn_y)
-            loss.backward()
-            nn.utils.clip_grad_norm_(self.model.parameters(), 5.)  # gradient clipping
-            self.optimizer.step()
+    #         # phase 2: child network step
+    #         self.optimizer.zero_grad()
+    #         logits, loss = self._logits_and_loss(trn_X, trn_y)
+    #         loss.backward()
+    #         nn.utils.clip_grad_norm_(self.model.parameters(), 5.)  # gradient clipping
+    #         self.optimizer.step()
 
-            metrics = self.metrics(logits, trn_y)
-            metrics["loss"] = loss.item()
-            meters.update(metrics)
-            if self.log_frequency is not None and step % self.log_frequency == 0:
-                logger.info("Epoch [%s/%s] Step [%s/%s]  %s", epoch + 1,
-                            self.num_epochs, step + 1, len(self.train_loader), meters)
+    #         metrics = self.metrics(logits, trn_y)
+    #         metrics["loss"] = loss.item()
+    #         meters.update(metrics)
+    #         if self.log_frequency is not None and step % self.log_frequency == 0:
+    #             print("Jaunes Jimminies")
+    #             logger.info("Epoch [%s/%s] Step [%s/%s]  %s", epoch + 1,
+    #                         self.num_epochs, step + 1, len(self.train_loader), meters)
+    #             cur_time = timeit.default_timer()
+    #             time_diff = cur_time - started_time
+    #             logger.info("memes")
+    #             logger.info(str(meters))
 
     def validate_one_epoch(self, epoch):
         self.model.eval()

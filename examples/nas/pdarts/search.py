@@ -13,11 +13,11 @@ from nni.nas.pytorch.callbacks import ArchitectureCheckpoint
 from nni.algorithms.nas.pytorch.pdarts import PdartsTrainer
 
 # prevent it to be reordered.
-if True:
-    sys.path.append('../darts')
-    from utils import accuracy
-    from model import CNN
-    import datasets
+# if True:
+# sys.path.append('../darts')
+from utils import accuracy
+from model import CNN
+import datasets
 
 
 logger = logging.getLogger('nni')
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument("--channels", default=16, type=int)
     parser.add_argument("--batch-size", default=64, type=int)
     parser.add_argument("--log-frequency", default=1, type=int)
-    parser.add_argument("--epochs", default=50, type=int)
+    parser.add_argument("--epochs", default=100, type=int)
     parser.add_argument("--unrolled", default=False, action="store_true")
     args = parser.parse_args()
     if args.add_layers is None:
@@ -68,4 +68,5 @@ if __name__ == "__main__":
                             unrolled=args.unrolled,
                             callbacks=[ArchitectureCheckpoint("./checkpoints")])
     logger.info("training")
+    # trainer.enable_visualization() # JOSH ADDED THIS LINE, MEMES ARE POSSIBLE 
     trainer.train()
