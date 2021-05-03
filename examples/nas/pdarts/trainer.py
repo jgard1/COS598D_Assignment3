@@ -8,7 +8,7 @@ from nni.nas.pytorch.callbacks import LRSchedulerCallback
 from nni.algorithms.nas.pytorch.darts import DartsTrainer
 from nni.nas.pytorch.trainer import BaseTrainer, TorchTensorEncoder
 
-from .mutator import PdartsMutator
+from mutator import PdartsMutator
 
 logger = logging.getLogger(__name__)
 
