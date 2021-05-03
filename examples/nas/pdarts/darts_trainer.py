@@ -82,7 +82,7 @@ class DartsTrainer(Trainer):
                                                        batch_size=batch_size,
                                                        num_workers=workers)
 
-    def train_one_epoch(self, epoch, started_time):
+    def train_one_epoch(self, epoch):
         self.model.train()
         self.mutator.train()
         meters = AverageMeterGroup()
@@ -109,11 +109,11 @@ class DartsTrainer(Trainer):
             metrics["loss"] = loss.item()
             meters.update(metrics)
             if self.log_frequency is not None and step % self.log_frequency == 0:
-                print("Jaunes Jimminies")
+                # print("Jaunes Jimminies")
                 logger.info("Epoch [%s/%s] Step [%s/%s]  %s", epoch + 1,
                             self.num_epochs, step + 1, len(self.train_loader), meters)
-                cur_time = timeit.default_timer()
-                time_diff = cur_time - started_time
+                # cur_time = timeit.default_timer()
+                # time_diff = cur_time - started_time
                 # logger.info("memes")
                 logger.info(str(meters))
 
