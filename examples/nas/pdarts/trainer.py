@@ -61,7 +61,7 @@ class PdartsTrainer(BaseTrainer):
                 callback.build(model, self.mutator, self)
                 callback.on_epoch_begin(epoch)
 
-            darts_callbacks = self.callbacks # Josh memes modifications
+            darts_callbacks = [ArchitectureCheckpoint("./checkpoints_"+str(epoch))] # Josh memes modifications, orignally had 
             if lr_scheduler is not None:
                 darts_callbacks.append(LRSchedulerCallback(lr_scheduler))
                 print("trainer.py: lr_scheduler is not None, DARTS Callbacks:"+str(darts_callbacks))
