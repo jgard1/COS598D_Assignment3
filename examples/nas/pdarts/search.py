@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument("--channels", default=16, type=int)
     parser.add_argument("--batch-size", default=64, type=int)
     parser.add_argument("--log-frequency", default=1, type=int)
-    parser.add_argument("--epochs", default=1, type=int)
+    parser.add_argument("--epochs", default=5, type=int)
     parser.add_argument("--unrolled", default=False, action="store_true")
     args = parser.parse_args()
     if args.add_layers is None:

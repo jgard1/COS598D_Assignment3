@@ -59,8 +59,8 @@ class DartsTrainer(Trainer):
                          loss, metrics, optimizer, num_epochs, dataset_train, dataset_valid,
                          batch_size, workers, device, log_frequency, callbacks)
 
-        print("\n\n\n\n\ncallbacks in darts initializer: "+str(callbacks))
-        print("\n\n\n\n\n\nDOGECOIN\n\n\n\n\n\n\n\n")
+        # print("\n\n\n\n\ncallbacks in darts initializer: "+str(callbacks))
+        # print("\n\n\n\n\n\nDOGECOIN\n\n\n\n\n\n\n\n")
         self.ctrl_optim = torch.optim.Adam(self.mutator.parameters(), arc_learning_rate, betas=(0.5, 0.999),
                                            weight_decay=1.0E-3)
         self.unrolled = unrolled
